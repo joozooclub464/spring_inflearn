@@ -1,5 +1,7 @@
 spring
 ================================================================
+#day01 - 스프링 프레임워크
+
 프레임워크
 	뼈대나 근간을 이루는 코드들의 묶음
 	개발자는 각 개개인의 능력차이가 큰 직종이고, 개발자 구성에 따라 프로젝트의 
@@ -90,11 +92,108 @@ Lombok 라이브러리 설치
 	Lombok(롬복)을 이용하면 Java 개발시 getter/setter, toString(),
 	생성자 등을 자동으로 생성해주므로 설치해서 사용하면 편리하다.
 ================================================================
+#day02 - 스프링 구동 원리
 
+프로젝트 기본 구성 요소
+	src/main/java		작성되는 코드의 경로
+	src/main/resource	실행할 때 참고하는 기본 경로(설정 파일)
+	src/test/java		테스트 코드를 넣는 경로
+	src/test/resource	테스트 관련 설정 파일 보관 경로
 
+웹과 관련된 스프링 설정 파일
+src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml
 
+bean 관리용 스프링 설정 파일
+src/main/webapp/WEB-INF/spring/root-context.xml
+=> 주입해줘야 하는 파일의 경우 여기에 적힌 태그들을 참고해서 외부에서 객체를 찾아서 주입해줌
 
+Tomcat의 web.xml파일
+WEB-INF/web.xml
 
+템플릿 프로젝트의 jsp 파일 경로
+src/main/webapp/WEB-INF/views
+
+Maven이 사용하는 pom.xml
+ex00/pom.xml
+
+* WEB-INF : INF가 붙어있는 폴더는 보안이 걸려있는 폴더임(직접 접근하는것이 불가능하게 막혀있는 폴더임)
+
+라이브러리 오류 발생시 C 드라이브 > 사용자 > 계정폴더 > .m2폴더 안의 내용 싹 지우기
+> 이클립스 재시작 > 프로젝트 우클릭 > Maven > Update Project
+---------------------------------------------------------------
+의존성 주입 테스트(연습)
+	호텔, 레스토랑 안에 셰프 객체를 주입하는 예제
+	생성자, setter 메소드를 이용한 주입으로 의존성 주입 구현
+	설정 방식은 XML이나 어노테이션을 이용해서 처리
+
+스프링 프레임워크 동작시 생기는 일
+	1. 스프링 프레임워크가 시작되면서 먼저 스프링이 사용하는 메모리 영역을 만든다.
+	2. 스프링 내부적으로 ApplicationContext라는 이름의 객체가 만들어진다.
+	3. 스프링은 자신이 생성하고 관리해야 하는 객체들에 대한 설정을 알아야 하고
+	   이 설정파일은 root-context.xml 이라는 파일로 만들어져 있다.
+	4. root-context.xml에 설정되어 있는 <context:component-scan>
+	   태그의 내용을 통해서 com.koreait.sample 패키지를 스캔하기 시작한다.
+	5. 해당 패키지에 있는 클래스들 중에서 스프링이 사용하는 @Component라는
+	   어노테이션이 존재하는 클래스의 인스턴스를 생성한다. 
+	6. Restaurant 객체는 Chef 객체가 필요하다는 어노테이션(@Autowired) 설정이 있으므로
+	   Chef 객체의 레퍼런스를 Restaurant 객체에 주입한다.
+
+테스트 환경(JUnit)
+	자바 프로그래밍 언어용 유닛 테스트 프레임워크
+	가장 많이 사용되는 테스트 환경
+	assert???() (이런 이름의 메소드가 가장 많이 사용됨)
+	테스트 성공시 JUnit GUI 창에 녹색으로 표시 / 실패시 적색으로 표시
+	하나하나의 케이스별로(단위로 나누어서) 테스트를 하는 단위 테스트 도구
+
+테스트 환경 구축하기
+	1. 테스트 클래스 위쪽에 어노테이션 추가
+		@RunWith(SpringJUnit4ClassRunner.class)
+	2. 내부에 테스트용 메소드 선언
+		- 내부에는 우리가 테스트 해볼 로직을 구현
+	3. 테스트용 메소드 위에 어노테이션 추가
+		@Test
+	4. 테스트 실행
+		테스트클래스 > 우클릭 > Run As > JUnit Test 
+
+spring이 Component붙은 것을 찾으려면 root-context.xml에 등록되어있는 beans중에서 component를 찾음
+-> ie)root-context.xml 의 beans 안에 component를 등록해줘야 함
+-----------------------------------------------------------------------------
+*어노테이션 정리
+
+@Component 
+	spring에게 해달 클래스가 스프링에서 관리해야 하는 대상임을 표시하는 어노테이션
+	주입해줘야 할 것을 스프링에게 알려주는 어노테이션.
+
+@Data
+	Lombok의 setter,getter,toString() 등을 자동으로 생성해주는 어노테이션
+
+@AllArgsConstructor
+	인스턴스 변수로 선언된 모든 것을 파라미터로 받는 생성자를 작성한다.
+	등록되어있는 Chef타입의 chef 하나를 만들어서 주입해줌.
+
+@RequiredArgsConstructor
+	특정 변수를 위한 생성자를 만들 때 작성. final이 붙거나 @NonNull이 붙은 인스턴스 변수에 대한 생성자를 만들어낸다.
+	ie) 어떤건 주입이 필요하고 어떤건 필요 없을 때(주입이 일어나지 않게 할 때)
+
+@NonNull
+	@RequiredArgsConstructor가 NonNull에 대한 chef 하나를 받아오는 생성자로 생성이 됨
+
+@Setter(onMethod_ = @Autowired)
+	set chef를 이용해서 주입할건데, 자동으로 연결되어 있는걸로 주입해줘
+
+@RunWith(SpringJUnit4ClassRunner.class)
+	지정된 클래스나 문자열을 이용해서 필요한 객체들을 스프링 내에 객체로 등록
+
+@ContextConfiguration("file:src/main/webapp/WEB-INF/spring/root-context.xml")
+	rootcontext가 어디있는지 test클래스에서 알려주는 것
+
+@Log4j
+	롬복에 존재하는 로그를 찍기 위한 라이브러리
+
+@Test
+	JUnit에서 테스트 대상임을 표시(반드시 public으로 만들어야 함)
+
+-----------------------------------------------------------------------------
 
 
 
