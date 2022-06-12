@@ -298,7 +298,71 @@ hikariCP
 	---------------------------------------------------------------------------
 
 ================================================================
-# day04 - 
+# day04 - 스프링 MVC
+
+스프링 MVC 기본 구조
+	스프링 프레임워크는 하나의 기능을 위해서만 만들어진 프레임워크가 아닌
+	'코어'라고 할 수 있는 여러 서브 프로젝트를 결합해서 다양한 상황에
+	대처할 수 있도록 개발되었다. 그 중 하나가 스프링 MVC 구조이다.
+
+	스프링 MVC
+	[Spring MVC]	- WEB 관련 영역
+	[Spring Core]	- 일반 JAVA 영역(POJO)
+	[Spring-Mybatis]
+	[Mybatis]
+	[DB]
+
+	프로젝트 구동은 web.xml 에서 시작한다. web.xml 상단에는 가장 먼저 구동되는
+	Context Listener가 등록되어 있다.
+	(Listener : 요청을 보내면 그 요청을 듣는 친구)
+
+	1) ContextLoaderListener는 해당 웹 어플리케이션을 구동하게 되면 같이
+	작동이 시작되므로 해당 프로젝트를 실행하면 가장 먼저 로그를 출력하면서 실행된다.
+	
+	2) root-context.xml이 처리되면 파일에 있는 빈(Bean)들이 작동한다.
+
+	3) root-context.xml이 처리된 후에는 DispatcherServlet이라는 서블릿과
+	관련된 설정이 작동한다. MVC구조에서 가장 핵심적인 역할을 하는 클래스이며
+	내부적으로 앱 관련 처리의 준비 작업을 진행한다. 내부적으로 웹 관련 처리의 준비
+	작업을 진행하기 위해 사용하는 파일이 있고 servlet-context.xml이다.
+
+	4) DispatcherServlet에서 XmlWebApplicationContext를 이용해서
+	servlet-context.xml을 로딩하고 해석한다. 이 과정에서 등록된 객체(Bean)들은
+	기존에 만들어진 객체(Bean)들과 같이 연동하게 된다.
+-----------------------------------------------------------------------------
+Front-Controller 패턴
+		    HandlerMapping
+			↑      ↓
+Client -> DispatcherServlet ← HandlerAdapter ↔ Controller
+↑	    	      ↓
+└──────────View	← ViewResolver
+
+1. 사용자의 Request는 Front-Controller인 DispatcherServlet을 통해 처리한다.
+
+2. HandlerMapping은 Request의 처리를 담당할 컨트롤러를 찾기 위해 존재한다.
+
+3. HandlerMapping 인터페이스를 구현한 여러 객체중 @RequestMapping이라는
+어노테이션이 적용된 것을 기준으로 판단하며, 적절한 컨트롤러를 찾았다면 HandlerAdapter를
+이용해서 해당 컨트롤러를 동작시킨다.
+
+4. Controller의 처리가 완료되었다면 어디로, 어떻게 갈 것인지 라는 결과가 나오고 그 결과를
+ViewResolver가 리턴을 통해 받아서 어떤 View에서 처리하는 것이 좋을지 해석을 해준다.
+
+5. 해석된 결과를 가지고 실제 응답을 보내야 하는 데이터를 JSP 등을 이용해서 생성해준다.
+
+6. 만들어진 응답(페이지)을 DispatcherServlet을 통해서 전송한다.
+-----------------------------------------------------------------------------
+스프링 MVC Controller의 특징
+	HttpServletRequest, HttpServletResponse를 거의 사용할 필요 없이 기능 구현
+	다양한 타입의 파라미터 처리, 다양한 타입의 리턴 타입 사용 가능
+	GET 방식, POST 방식 등 전송 방식에 대한 처리를 어노테이션으로 처리 가능
+	상속/인터페이스 방식 대신 어노테이션으로 설정 가능
+
+
+
+
+
+
 
 
 
