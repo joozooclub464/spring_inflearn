@@ -358,9 +358,25 @@ ViewResolver가 리턴을 통해 받아서 어떤 View에서 처리하는 것이
 	GET 방식, POST 방식 등 전송 방식에 대한 처리를 어노테이션으로 처리 가능
 	상속/인터페이스 방식 대신 어노테이션으로 설정 가능
 
+================================================================
+# day05 - 
 
+Postman(포스트맨)
+	https://www.postman.com/downloads > 다운로드 버튼 클릭
+	> 설치파일 실행 > 계정 생성 > 로그인
 
+	여러 방식의 요청을 외부에서 보낼 수 있도록 도와주는 개발툴
+	GET,POST 외에도 PUT,DELETE 등의 요청도 가능하다.
 
+Exception 처리
+	@ExceptionHandler와 @ControllerAdvice를 이용한 처리
+	@ControllerAdvice
+		예외 사항을 전부 핸들링해야 한다면 중복적이고 많은 양의 코드를 작성해야 한다
+		따라서 공통적인 예외사항에 대해서는 별도로 @ControllerAdvice를
+		이용해서 분리한다. 따로 예외들만 분리해서 관리할 수 있게되고
+		이것이 AOP를 이용하는 방식이다.
+
+	@ResponseEntity를 이용해서 예외 메세지를 구성할 수 있다.
 
 
 
