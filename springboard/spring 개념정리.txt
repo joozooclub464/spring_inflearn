@@ -461,7 +461,30 @@ Presentation Tier(화면 계층)
 	DBeaver -> 디비 만들어주기
 	프로젝트 생성해서 기본 셋팅 해주기
 
+	com.springboard.controller > BoardController.java
+		컨트롤러임을 알려주기 위해 @Controller
+		url 이 /board/* 로 이루어져 있으면 이쪽으로 보내기 위해 @RequestMapping
+		url 맵핑해주기 위해  @GetMapping으로 /list를 표시해줌
+		db처리해서 Model에 담아서 보내주기 위해 Model타입의 model매개변수 하나 선언 > public void list(Model model)
+		model.addAttribute("list",??); 로 디비에서 검색해옴 근데 이제 서비스로 기능구현해둔걸 호출해야함
+		
+		service패키지 생성 후 BoardService인터페이스 생성 -> list를 검색해서 가져오는 기능 구현 -> DTO도 필요함
+		domain패키지 생성 후 BoardDTO 생성
+	
+	xml파일 에서 부등호를 태그가 아닌 문자로 인식시켜야 할 때(ex 쿼리문 안의 연산자) 
+		<![CDATA[
+			쿼리문
+		]]>
+	으로 작성하면 CDATA 괄호 안은 문자로 인식한다
 
+	실제 개발할 때 DB를 다 구현 > Mapper부터 만든다 > root-context에 mybatis-spring:scan 달아줘야함
+		<mybatis-spring:scan base-package="com.springboard.mapper"/> 추가하기
+
+	mapper만들었으니 테스트 > test 패키지에 Mapper 패키지 만들어주고 BoardMapperTests 클래스 생성 > private BoardMapper타입의 mapper객체 하나 생성
+	> new로 생성하는 것이 아니라 @Setter로 주입받아옴 > 아래에 메소드 하나씩 만들어주기 > 테스트 완료하면 mapper는 완료
+
+	* 계속 junit이 임포트가 안되는 문제가 있어서 이리저리 헤맸는디,,, maven update project만 하면 해결될 문제였음.. 잘 확인하자...
+	
 
 
 
