@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <!-- 
+ //게시글이 삭제되었다면 1 이상의 값이 리턴되고
+ //없는 게시글이라면(삭제가 안됐다면) 0이 리턴된다.
+  -->
+<mapper namespace="com.springboard.mapper.BoardMapper">
+	
+	<select id="getList" resultType="com.springboard.domain.BoardDTO">
+		<![CDATA[
+			select * from spring_board where boardnum <= 10 and boardnum > 0 
+		]]>
+		
+	</select>
+	<select id="read" resultType="com.springboard.domain.BoardDTO"> 
+		SELECT * FROM SPRING_BOARD WHERE BOARDNUM=#{boardnum}
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO SPRING_BOARD (boardnum,boardtitle,boardcontents,boardwriter)
+		values(seq_board.nextval,#{boardtitle},#{boardcontents},#{boardwriter})
+	</insert>
+	<insert id="insert_with_bno">
+		<!-- 
+			selectKey order="BEFORE" : 아래에 있는 쿼리문을 수행하기 전에 해당 쿼리문을 한번 수행한다.
+			resultType(Long)는 수행된 결과의 타입이며 그 결과를 "boardnum" 이라는 이름에 세팅
+		 -->
+		<selectKey keyProperty="boardnum" order="BEFORE" resultType="long">
+			SELECT seq_board.nextval from dual
+		</selectKey>
+		INSERT INTO SPRING_BOARD (boardnum, boardtitle,boardcontents,boardwriter)
+		values(#{boardnum},#{boardtitle},#{boardcontents},#{boardwriter})
+	</insert>
+
+	<update id="update">
+		UPDATE SPRING_BOARD SET BOARDTITLE=#{boardtitle}, BOARDCONTENTS=#{boardcontents}, 
+		UPDATEDATE=SYSDATE WHERE BOARDNUM=#{boardnum}
+	</update>
+
+	<delete id="delete">
+		DELETE FROM SPRING_BOARD WHERE BOARDNUM = #{boardnum}  
+	</delete>
+</mapper>
