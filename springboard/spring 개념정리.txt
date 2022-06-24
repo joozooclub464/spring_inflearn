@@ -508,7 +508,22 @@ Presentation Tier(화면 계층)
 	service까지 테스트를 완료했음 -> 뷰가 제대로 뜨지 않는다면 컨트롤러 문제 -> 컨트롤러 테스트 
 	즉 컨트롤러는 따로 테스트 하지 않아도 뷰가 잘 나오는지 보면 확인 가능
 
+	MockMvcBuilder 라는 인터페이스가 있고, MockMvcBuilders라는 클래스가 있음. 이 점 유의할 것
+	-----------------------------------------------------------------------
+	BoardControllerTest - {list=[BoardDTO(boardnum=1, boardtitle=테스트 제목1, boardcontents=테스트 내용1, boardwriter=apple, ...
+		:) BoardControllerTest에서 리스트 제대로 달려있고
+	.BoardControllerTest - board/list
+		:) name 도 제대로 달려있음
+	==> controllerTest 이상없음
+	-----------------------------------------------------------------------
+mapper만들기
+	mapper 인터페이스 말고 xml으로 따로 쿼리문을 빼기로 결정함
+	main/resource에 mapper패키지 만들어준 후 그 아래에 Boardmapper.xml 생성
 
+	-----------------------------------------------------------------------
+	실제로 개발할 때 순서
+	mapper부터 작성
+	DB -> 쿼리문 -> mapper -> service -> controller -> 수정버튼클릭		
 	
 
 
