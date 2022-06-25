@@ -516,15 +516,29 @@ Presentation Tier(화면 계층)
 		:) name 도 제대로 달려있음
 	==> controllerTest 이상없음
 	-----------------------------------------------------------------------
+	실제로 개발할 때 순서
+	mapper부터 작성
+	DB -> 쿼리문 -> mapper -> service -> controller -> 수정버튼클릭
+	-----------------------------------------------------------------------
 mapper만들기
 	mapper 인터페이스 말고 xml으로 따로 쿼리문을 빼기로 결정함
 	main/resource에 mapper패키지 만들어준 후 그 아래에 Boardmapper.xml 생성
-
+	root-context.xml에 Scan 과 SqlFactory 등록해줬는지 확인.
+	BoardMapper인터페이스에 필요한 쿼리 id이름으로 메소드 선언
+	BoardMapper.xml에 쿼리문 작성
+	BoardMapperTests에 테스트코드 작성
 	-----------------------------------------------------------------------
-	실제로 개발할 때 순서
-	mapper부터 작성
-	DB -> 쿼리문 -> mapper -> service -> controller -> 수정버튼클릭		
+	selectKey order="BEFORE" : 아래에 있는 쿼리문을 수행하기 전에 해당 쿼리문을 한번 수행한다.
+	resultType(Long)는 수행된 결과의 타입이며 그 결과를 "boardnum" 이라는 이름에 세팅
+	-> mybatis 기본 제공 기능, order="BEFORE"면 기존 쿼리문 앞에 붙여서 실행된 selectKey의 값을 
+	   바로 쿼리문에 세팅해서 쓸 수 있음.
+
+	해당 작성자가 작성한 boardnum중 가장 큰 번호로 가져왔던 최근 게시글을
+	selectKey를 사용하면
+	방금 등록된 boardnum을 바로 객체에 세팅해서 쓸 수 있기 때문에 boardnum을 바로 꺼내서 쓸 수 있음.
 	
+	
+
 
 
 
