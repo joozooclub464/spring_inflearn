@@ -542,6 +542,20 @@ mapper만들기
 	프로젝트에 템플릿 넣어서 적용
 	템플릿 위치 : src/main/webapp/resources 아래에 css나 js파일 넣어두기
 	-----------------------------------------------------------------------
+Naming Convention(명명 규칙)
+	패키지명 : com.koreait
+
+	요소별 명명
+		config : 프로젝트와 관련된 설정 클래스들의 보관 패키지
+		controller : 스프링 MVC의 Controller들의 보관 패키지
+		service : 스프링의 Service 인터페이스와 구현 클래스 패키지
+		domain : DTO, VO 클래스들의 패키지
+		persistence : MyBatis Mapper 인터페이스 패키지
+		exception : 웹 관련 예외 처리 패키지
+		aop : 스프링의 aop 관련 패키지
+		security : 스프링 Security(하위 프레임워크) 관련 패키지
+		util : 각종 유틸리티 클래스 관련 패키지
+	-----------------------------------------------------------------------
 	pageDTO 
 		Math.ceil() : 올림
 
@@ -559,8 +573,34 @@ mapper만들기
 	
 		10페이지씩 이동하기
 		
-		
+		if(endPage>realEnd) {
+			endPage = realEnd;
+		}
+		this.prev = this.startPage > 1; 
+		this.next = this.endPage < this.realEnd;
+
+		BoardController에 BoardDTO를 연결해줘야 함.
+		> list메소드 안에 model.addAttribute로 "pageMaker", new PageDTO(service.getTotal(), pagenum)를 넣어줌.
+		> getTotal()이 없으니 BoardService에 getTotal() 만들어주고
+		> BoardServiceImpl에 getTotal 오버라이드 해줌
+		> 오버라이드 해준 getTotal메소드의 리턴을 mapper.getTotal()로 해주고
+		> mapper인터페이스에 getTotal없으니 getTotal인터페이스 만들어줌
+		> boardmapper.xml에 도 getTotal그대로 복사해서 select로 getTotal만들어주기
+		> test까지 통과 하면 controller에서 getTotal받아서 넘겨주면 PageDTO가 그걸 기반으로 만들어주고 그거대로 pageMaker를 만들어서 list.jsp로 뿌려줌
 	-----------------------------------------------------------------------
+	paging처리 후에도 total은 전체 게시글 수를 받아오고 있기 때문에 게시글 수 만큼만 페이지가 뜨는 것이 아니라 20페이지까지 다 뜸
+	-> 후에 수정해줄것.
+	-----------------------------------------------------------------------
+
+================================================================
+# day09 - 
+
+
+
+
+
+
+
 
 
 
