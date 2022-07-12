@@ -2,19 +2,13 @@
 <!DOCTYPE mapper
  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
- 
- <!-- 
- //게시글이 삭제되었다면 1 이상의 값이 리턴되고
- //없는 게시글이라면(삭제가 안됐다면) 0이 리턴된다.
-  -->
 <mapper namespace="com.springboard.mapper.BoardMapper">
-	
 	<select id="getList" resultType="com.springboard.domain.BoardDTO">
 		<![CDATA[
 			select * from spring_board where boardnum <= 10 and boardnum > 0 
 		]]>
-		
 	</select>
+	
 	<select id="read" resultType="com.springboard.domain.BoardDTO"> 
 		SELECT * FROM SPRING_BOARD WHERE BOARDNUM=#{boardnum}
 	</select>

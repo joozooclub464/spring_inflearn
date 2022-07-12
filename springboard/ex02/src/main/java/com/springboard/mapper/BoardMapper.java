@@ -17,6 +17,8 @@ public interface BoardMapper {
 	//없는 게시글이라면(삭제가 안됐다면) 0이 리턴된다.
 	int delete(Long boardnum);
 	int update(BoardDTO board);
+
+	int getTotal();
 	
 	
 	

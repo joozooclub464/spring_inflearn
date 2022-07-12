@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.springboard.domain.PageDTO;
 import com.springboard.service.BoardService;
 
 import lombok.Setter;
@@ -19,9 +20,10 @@ public class BoardController {
 	private BoardService service;
 	
 	@GetMapping("/list")
-	public void list(Model model) {
+	public void list(int pagenum, Model model) {
 		log.info("------list------");
 		model.addAttribute("list",service.getList());
+		model.addAttribute("pageMaker", new PageDTO(service.getTotal(), pagenum));
 	}
 }
 

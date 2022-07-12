@@ -26,4 +26,9 @@ public class BoardServiceImpl implements BoardService{
 		log.info(list);
 		return list;
 	}
+	
+	@Override
+	public int getTotal() {
+		return mapper.getTotal();
+	} 
 }

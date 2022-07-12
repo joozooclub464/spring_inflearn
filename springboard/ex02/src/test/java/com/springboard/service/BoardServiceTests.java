@@ -17,9 +17,14 @@ public class BoardServiceTests {
 	@Setter(onMethod_ = @Autowired)
 	private BoardService service;
 	
+//	@Test
+//	public void getListTest() {
+//		log.info(service.getList());
+//		}
+	
 	@Test
-	public void getListTest() {
-		log.info(service.getList());
-		}
+	public void getTotalTest() {
+		log.info(service.getTotal());
+	}
 	
 }

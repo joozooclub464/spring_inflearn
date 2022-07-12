@@ -11,4 +11,7 @@ public class BoardDTO {
 	private String regdate;
 	private String updatedate;
 	
+	
+	
+	
 }
